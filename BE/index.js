@@ -67,6 +67,42 @@ app.post("/users/create", async (req, res) => {
   }
 });
 
+app.get("/users", async (req, res) => {
+  const queryText = `SELECT * FROM "users"`;
+
+  try {
+    const result = await db.query(queryText);
+    res.json(result.rows); 
+  } catch (error) {
+    console.error('Error executing query', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+app.put("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, email, password } = req.body;
+
+  try {
+    const result = await db.query(
+      "UPDATE users SET name = $1, email = $2, password = $3 WHERE id = $4 RETURNING *",
+      [name, email, password, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).send('User not found');
+    }
+    else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error('Error executing query', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 // app.get("/", async (req, res) => {
 //   const tableQueryText = `
 //   CREATE TABLE IF NOT EXISTS "users" (
