@@ -1,5 +1,14 @@
 import { Inter } from "next/font/google";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+
+
+
+axios.get('http://localhost:').then((res) => {
+  console.log(res)
+})
+
+
 
 const inter = Inter({ subsets: ["latin"] });
 
