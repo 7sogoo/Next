@@ -18,7 +18,7 @@ app.use("/record", record)
 app.use("/api", auth)
 
 
-app.get("/installExtension", async (req, res) => {
+app.get("/installExtension", async (req, res) => { 
   const extensionQueryText = `
   CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
   `;

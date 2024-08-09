@@ -13,7 +13,7 @@ export const signUp = async (req, res) => {
 }
 export const signIn = async (req, res) => {
     const { password, email } = req.body;
-    const queryText = 'SELECT email, password FROM "user" WHERE email = $1';
+    const queryText = 'SELECT * FROM "user" WHERE email = $1';
 
     try {
         const result = await db.query(queryText, [email]);
@@ -26,7 +26,7 @@ export const signIn = async (req, res) => {
             return res.status(401).json({ error: "Invalid email or password" });
         }
     } catch (err) {
-        console.error(err);
+        console.log(err);
         return res.status(500).json({ error: "Database error" });
     }
 };

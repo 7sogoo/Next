@@ -1,5 +1,5 @@
 import express from "express"
-import { getUser,createUser,updateUser,deleteUser } from "../controller/user.js";
+import { getUser,createUser,updateUser,deleteUser, getUserByFilter } from "../controller/user.js";
 
 const user = express.Router();
 
@@ -8,5 +8,6 @@ user
     .post("/create", createUser)
     .put("/:id", updateUser)
     .delete("/:id", deleteUser)
+    .get("/filter", getUserByFilter)
 
 export { user }

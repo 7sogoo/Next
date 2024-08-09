@@ -27,12 +27,32 @@ export const createUser = async (req, res) => {
         avatarImg,
         currencyType
       ]);
-      res.status(201).json(result.rows[0]);
+      res.status(200).json(result.rows[0]);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       res.status(500).json({error: "DATABASE ERROR"})
     }
   };
+
+export const getUserByFilter = async (req, res) => {
+  let body = req.body;
+  const { query } = body;
+  delete body.query;
+  console.log(query)
+  console.log(body)
+  let queryText = 'SELECT * FROM user ';
+  queryText = queryText + query;
+  console.log(queryText)
+  try {
+      const result = await db.query(queryText, [...Object.values(body)]);
+      
+      return res.status(200).json(result.rows);
+  } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Database error" });
+  }
+};
+
 
   export const updateUser = async (req, res) => {
     const { id } = req.params;
@@ -51,7 +71,7 @@ export const createUser = async (req, res) => {
         res.json(result.rows[0]);
       }
     } catch (error) {
-      console.error('Error executing query', error);
+      console.log('Error executing query', error);
       res.status(500).send('Internal Server Error');
     }
   };
@@ -73,7 +93,7 @@ export const createUser = async (req, res) => {
         res.send("User deleted successfully")
       }
     } catch (error) {
-      console.error('Error executing query', error);
+      console.log('Error executing query', error);
       res.status(500).send('Internal Server Error');
     }
   };
