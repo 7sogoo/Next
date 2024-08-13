@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const DashboardHeader = () => {
   return (
-    <div className="flex justify-between items-center max-w-[1200px] m-auto py-8">
+    <div className="flex justify-between items-center max-w-[1200px] m-auto py-4">
       <div className="flex gap-6 items-center">
         <SvgLogo />
         <p className="font-semibold">Dashboard</p>
