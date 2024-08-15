@@ -1,14 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { SvgLogo, SvgPlus } from "..";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
-export const DashboardHeader = () => {
+const styles = {
+  first: "font-semibold",
+  second: ""
+}
+
+export const DashboardHeader = ({isSemiBold = true}) => {
   return (
     <div className="flex justify-between items-center max-w-[1200px] m-auto py-4">
       <div className="flex gap-6 items-center">
         <SvgLogo />
-        <p className="font-semibold">Dashboard</p>
-        <p>Records</p>
+        <Link href="/dashboard" className={isSemiBold ? "font-semibold" : ""}>Dashboard</Link>
+        <Link href="/records" className={isSemiBold ? "" : "font-semibold"}>Records</Link>
       </div>
       <div className="flex gap-6 items-center">
         <Button className="bg-[#0166FF] rounded-3xl flex gap-1">

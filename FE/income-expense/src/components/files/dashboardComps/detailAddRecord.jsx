@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@radix-ui/react-checkbox";
 import { SvgEye, SvgNext, SvgPlusBlue } from "..";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const checkboxData = ["All", "Income", "Expense"];
 const categoryData = [
@@ -20,7 +20,7 @@ const categoryData = [
 
 export const DetailAddRecord = () => {
   return (
-    <div className="w-[282px] flex flex-col gap-6 py-6 px-4 bg-white rounded-xl">
+    <div className="min-w-[282px] flex flex-col gap-6 py-6 px-4 bg-white rounded-xl">
       <div className="flex flex-col gap-6">
         <p>Records</p>
         <Button className="bg-[#0166FF] rounded-3xl">+ Add</Button>
@@ -29,8 +29,8 @@ export const DetailAddRecord = () => {
       <div>
         <p className="mb-4 font-semibold">Types</p>
         {checkboxData.map((el, i) => (
-          <div className="flex items-center gap-2 py-1 px-3">
-            <Checkbox className="rounded-full border-" />
+          <div key={el + i} className="flex items-center gap-2 py-1 px-3">
+            <Checkbox className="rounded-full border-"/>
             <p>{el}</p>
           </div>
         ))}
@@ -42,7 +42,7 @@ export const DetailAddRecord = () => {
         </div>
         <div className="flex flex-col gap-2">
           {categoryData.map((el, i) => (
-            <div className="flex justify-between items-center">
+            <div key={el + i} className="flex justify-between items-center">
               <div className="flex items-center px-3 gap-2 py-1">
                 <SvgEye />
                 <p>{el}</p>

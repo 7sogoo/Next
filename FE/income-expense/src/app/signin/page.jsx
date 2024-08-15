@@ -18,8 +18,8 @@ const signin = () => {
             </p>
           </div>
           <div className="w-full space-y-4">
-            <Input className="bg-[#F3F4F6]" placeholder="Email" />
-            <Input className="bg-[#F3F4F6]" placeholder="Password" />
+            <Input className="bg-[#F3F4F6]" name="Email" placeholder="Email" />
+            <Input className="bg-[#F3F4F6]" name="Password" placeholder="Password" />
           </div>
           <Button className="bg-[#0166FF] w-full rounded-3xl">Log in</Button>
           <div className="flex items-center">

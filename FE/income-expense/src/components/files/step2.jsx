@@ -1,4 +1,5 @@
 import { SvgBalance } from ".";
+import { Input } from "../ui/input";
 
   const Step2 = () => {
     return (
@@ -11,7 +12,7 @@ import { SvgBalance } from ".";
               </div>
               <p className="text-2xl font-semibold">Set up your cash Balance</p>
             </div>
-            {/* <Input className="" placeholder="Email" /> */}
+            <Input className="" placeholder="Email" />
 
             <p className="text-[#475569] text-xs">
             How much cash do you have in your wallet?{" "}

@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link'
 
+
+
 const signUp = () => {
   return (
     <div className="flex">
@@ -14,10 +16,10 @@ const signUp = () => {
             <p className="text-slate-700"> Sign up below to create your Wallet account</p>
           </div>
           <div className="w-full space-y-4">
-            <Input className="bg-[#F3F4F6]" placeholder="Name" />
-            <Input className="bg-[#F3F4F6]" placeholder="Email" />
-            <Input className="bg-[#F3F4F6]" placeholder="Password" />
-            <Input className="bg-[#F3F4F6]" placeholder="Re-password" />
+            <Input className="bg-[#F3F4F6]" name="Name" placeholder="Name" />
+            <Input className="bg-[#F3F4F6]" name="Email" placeholder="Email" />
+            <Input className="bg-[#F3F4F6]" name="Password" placeholder="Password" />
+            <Input className="bg-[#F3F4F6]" name="Re-password" placeholder="Re-password" />
           </div>
           <Button className="bg-[#0166FF] w-full rounded-3xl">Sign up</Button>
           <div className="flex items-center">
