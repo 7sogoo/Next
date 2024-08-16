@@ -8,15 +8,16 @@ export const signUp = async (req, res) => {
     }    
     catch (err) {
         console.log(err);
-        res.status(500).json({ error: "database error"})
+        res.status(404).json({ error: "database error"})
     }
 }
 export const signIn = async (req, res) => {
-    const { password, email } = req.body;
-    const queryText = 'SELECT * FROM "user" WHERE email = $1';
-
+    const { password, name } = req.body;
+    const queryText = 'SELECT * FROM "user" WHERE name = $1';
+    console.log(req.body);
+    
     try {
-        const result = await db.query(queryText, [email]);
+        const result = await db.query(queryText, [name]);
         const user = result.rows;
         console.log(user)
 
@@ -27,7 +28,7 @@ export const signIn = async (req, res) => {
         }
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ error: "Database error" });
+        return res.status(404).json({ error: "Database error" });
     }
 };
 

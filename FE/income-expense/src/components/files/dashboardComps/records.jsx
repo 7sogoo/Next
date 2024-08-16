@@ -30,7 +30,7 @@ const mockData = [
 
 export const DashboardRecords = () => {
   return (
-    <div className="bg-[#F3F4F6] pb-5">
+    <div className="bg-[#F3F4F6] pb-5 mt-6">
       <div className="max-w-[1200px] m-auto bg-white rounded-xl">
         <p className="text-[#0F172A] font-semibold px-6 py-4">Last Records</p>
         {mockData.map((el, i) => (
