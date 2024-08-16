@@ -5,6 +5,6 @@ const auth = express.Router();
 
 auth
     .post("/signup", signUp)
-    .get("/signIn", signIn)
+    .post("/signIn", signIn)
 
 export { auth }

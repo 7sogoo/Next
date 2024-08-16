@@ -17,7 +17,7 @@ const signin = () => {
     const password = formRef.current[1].value
     
     try {
-      const res = axios.get("http://localhost:8000/api/signin", {name,password})
+      const res = axios.post("http://localhost:8000/api/signIn", {name,password})
       console.log(res)
     } catch (error) {
       setError(error)
