@@ -6,30 +6,34 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import axios from "axios";
 import { useRef, useState } from "react";
-import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 
 
 const signin = () => {
   const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false);
   const formRef = useRef()
   const router = useRouter()
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const name = formRef.current[0].value
+    const email = formRef.current[0].value
     const password = formRef.current[1].value
+    setLoading(true);
+    setError("");
     
     try {
-      const res = axios.post("http://localhost:8000/api/signIn", {name ,password})
-      if((await res).data.success === true){
-        router.push("/dashboard")
+      const response = await axios.post("http://localhost:8000/api/signIn", { email, password });
+      if (response.data.success) {
+        router.push("/dashboard");
       }
     } catch (error) {
-      setError(error)
+      setError("Email or password is incorrect");
+    } finally {
+      setLoading(false);
     }
-  }
-  
+  };
+
   return (
     <main className="flex w-full">
       <div className="bg-white w-full h-screen flex justify-center items-center">
@@ -48,7 +52,10 @@ const signin = () => {
             <Input className="bg-[#F3F4F6]" name="Email" placeholder="Email" />
             <Input className="bg-[#F3F4F6]" name="Password" type="password" placeholder="Password" />
           </div>
-          <Button onClick={onSubmit} className="bg-[#0166FF] w-full rounded-3xl">Log in</Button>
+          {error && <p className="text-red-500">{error}</p>}
+          <Button onClick={onSubmit} type="submit" className="bg-[#0166FF] w-full rounded-3xl" disabled={loading}>
+            {loading ? "Logging in..." : "Log in"}
+          </Button>
           <div className="flex items-center">
             <p>Don’t have account?</p>
             <Link href="/signUp">

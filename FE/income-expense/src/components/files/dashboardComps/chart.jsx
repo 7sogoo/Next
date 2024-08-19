@@ -1,43 +1,42 @@
-"use client";
+"use client"
 
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Pie,
-  PieChart,
-  XAxis,
-  YAxis,
-} from "recharts";
-
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { ChartComponent, Component } from "./pieChart";
-import { Card, CardContent } from "@/components/ui/card";
+import { ChartContainer } from "@/components/ui/chart";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { ChartComponent } from "./pieChart";
 
 export const DashboardCharts = () => {
+  const [chartData, setChartData] = useState([]);
+  const fetchData = async () => {
+    try {
+      const res = await axios.get('http://localhost:8000/record/getData');
+      setChartData(res.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+      fetchData()
+  }, [])
+
+  const months = ["January", "Febraury", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+  const formattedData = chartData.map(record => ({
+    ...record,
+    monthName: months[record.month - 1]
+  }));
+
   const chartConfig = {
-    desktop: {
+    income: {
       label: "Desktop",
-      color: "#84CC16",
+      color: "#2563eb",
     },
-    mobile: {
+    expense: {
       label: "Mobile",
-      color: "#F97316",
+      color: "#60a5fa",
     },
   };
-
-  const chartData = [
-    { month: "Jul", income: 3000000, expense: 2250000 },
-    { month: "Aug", income: 3000000, expense: 2250000 },
-    { month: "Sep", income: 3000000, expense: 2250000 },
-    { month: "Oct", income: 3000000, expense: 2250000 },
-    { month: "Nov", income: 3000000, expense: 2250000 },
-    { month: "Dec", income: 3000000, expense: 2250000 },
-  ];
 
   const chartData2 = [
     {
@@ -100,11 +99,11 @@ export const DashboardCharts = () => {
           config={chartConfig}
           className="box-content py-8 px-6 h-[184px] w-[540px]"
         >
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart accessibilityLayer data={formattedData}>
             <CartesianGrid vertical={false} />
             <YAxis />
             <XAxis
-              dataKey="month"
+              dataKey="monthName"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
@@ -112,12 +111,12 @@ export const DashboardCharts = () => {
             />
             <Bar
               dataKey="income"
-              fill="var(--color-desktop)"
+              fill="#84CC16"
               radius={[1000, 1000, 0, 0]}
             />
             <Bar
               dataKey="expense"
-              fill="var(--color-mobile)"
+              fill="#F97316"
               radius={[1000, 1000, 0, 0]}
             />
           </BarChart>
@@ -142,3 +141,4 @@ export const DashboardCharts = () => {
     </div>
   );
 };
+ 

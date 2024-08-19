@@ -1,9 +1,9 @@
 import { db } from "../../db.js"
-import { createUser} from "./user.js";
+import { createSignUp } from "./user.js";
 
 export const signUp = async (req, res) => {
     try {
-        const user = await createUser(req, res);
+        const user = await createSignUp(req, res);
         res.status(200).json({ success: true, user: user})
     }    
     catch (err) {
@@ -12,12 +12,12 @@ export const signUp = async (req, res) => {
     }
 }
 export const signIn = async (req, res) => {
-    const { password, name } = req.body;
-    const queryText = 'SELECT * FROM "user" WHERE name = $1';
+    const { password, email } = req.body;
+    const queryText = 'SELECT * FROM "user" WHERE email = $1';
     console.log(req.body);
     
     try {
-        const result = await db.query(queryText, [name]);
+        const result = await db.query(queryText, [email]);
         const user = result.rows;
         console.log(user)
 

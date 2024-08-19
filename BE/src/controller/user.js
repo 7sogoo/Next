@@ -12,6 +12,26 @@ export const getUser  = async (req, res) => {
     }
 }
 
+export const createSignUp = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const queryText = `
+  INSERT INTO "user" (name, email, password)
+  VALUES ($1, $2, $3) RETURNING *`; 
+
+  try {
+    const result = await db.query(queryText, [
+      email,
+      name,
+      password
+    ]);
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({error: "DATABASE ERROR"})
+  }
+};
+
 export const createUser = async (req, res) => {
     const { email, name, password, avatarImg, currencyType } = req.body;
   

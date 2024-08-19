@@ -41,7 +41,7 @@ app.get("/createTableUser", async (req, res) => {
     avatarImg TEXT,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    currencyType currency_type DEFAULT 'USD' NOT NULL
+    currencyType currency_type DEFAULT 'USD'
   );
   `;
 
