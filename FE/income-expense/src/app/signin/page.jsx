@@ -6,19 +6,25 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import axios from "axios";
 import { useRef, useState } from "react";
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 
 
 const signin = () => {
   const [error, setError] = useState("")
   const formRef = useRef()
+  const router = useRouter()
+
   const onSubmit = async (event) => {
     event.preventDefault();
     const name = formRef.current[0].value
     const password = formRef.current[1].value
     
     try {
-      const res = axios.post("http://localhost:8000/api/signIn", {name,password})
-      console.log(res)
+      const res = axios.post("http://localhost:8000/api/signIn", {name ,password})
+      if((await res).data.success === true){
+        router.push("/dashboard")
+      }
     } catch (error) {
       setError(error)
     }
@@ -42,7 +48,7 @@ const signin = () => {
             <Input className="bg-[#F3F4F6]" name="Email" placeholder="Email" />
             <Input className="bg-[#F3F4F6]" name="Password" type="password" placeholder="Password" />
           </div>
-          <Button className="bg-[#0166FF] w-full rounded-3xl">Log in</Button>
+          <Button onClick={onSubmit} className="bg-[#0166FF] w-full rounded-3xl">Log in</Button>
           <div className="flex items-center">
             <p>Don’t have account?</p>
             <Link href="/signUp">
@@ -52,7 +58,6 @@ const signin = () => {
         </div>
        </form>
       </div>
-      <button onClick={onSubmit}>click</button>
       <div className="bg-[#0166FF] w-full h-screen"></div>
     </main>
   );

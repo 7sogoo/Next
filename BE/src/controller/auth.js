@@ -24,7 +24,7 @@ export const signIn = async (req, res) => {
         if (password === user[0].password) {
             return res.status(200).json({ success: true, user: user});
         } else {
-            return res.status(401).json({ error: "Invalid email or password" });
+            return res.status(401).json({ error: "Invalid name or password" });
         }
     } catch (err) {
         console.log(err);

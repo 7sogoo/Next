@@ -13,16 +13,16 @@ export const getRecord  = async (req, res) => {
 }
 
 export const createRecord = async (req, res) => {
-    const { name, amout, description, transactionType } = req.body;
+    const { name, amount, description, transactionType } = req.body;
   
     const queryText = `
-    INSERT INTO "record" (name, amout, description, transactionType)
+    INSERT INTO "record" (name, amount, description, transactionType)
     VALUES ($1, $2, $3, $4) RETURNING *`; 
   
     try {
       const result = await db.query(queryText, [
         name,
-        amout,
+        amount,
         description,
         transactionType
         ]);
