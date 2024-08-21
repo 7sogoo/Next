@@ -33,6 +33,38 @@ export const getData = async (req, res) => {
   }
 };
 
+export const getDesc = async (req, res) => {
+    const queryText = "SELECT * FROM record";
+    try {
+      const result = await db.query(queryText);
+  
+      const groupedData = _.groupBy(result.rows, (el) => {
+        const moonLanding = new Date(el.createdat);
+        return [moonLanding]
+      });
+  
+      const response = _.map(groupedData, (monthRecords, month) => {
+        const totalAmount = monthRecords.reduce(
+          (acc, record) => {
+            if (record.transactiontype === "INC") {
+              acc.total = record.amount;
+            } else if(record.transactiontype === "EXP") {
+              acc.total = -record.amount;
+            }
+            acc.desc = record.description
+            return acc;
+          },
+          { total:0, desc: ""}
+        );
+        return { month, ...totalAmount };
+   
+      });
+      res.send(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 export const getRecord = async (req, res) => {
     const queryText = `SELECT * FROM "record"`;
 

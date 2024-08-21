@@ -1,25 +1,14 @@
 "use client"
 
-import { ChartContainer } from "@/components/ui/chart";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { ChartComponent } from "./pieChart";
+import { Pie, PieChart } from "recharts"
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
 
-export const DashboardCharts = () => {
-  const [chartData, setChartData] = useState([]);
-  const fetchData = async () => {
-    try {
-      const res = await axios.get('http://localhost:8000/record/getData');
-      setChartData(res.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  useEffect(() => {
-      fetchData()
-  }, [])
-
+export const DashboardCharts = ({ chartData }) => {
   const months = ["January", "Febraury", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
   const formattedData = chartData.map(record => ({
@@ -41,27 +30,26 @@ export const DashboardCharts = () => {
   const chartData2 = [
     {
       browser: "Bills",
-      visitors: "5’000’000₮",
-      bg: "bg-[#1C64F2]",
+      visitors: 5000000,
+      fill: "#1C64F2",
     },
-    { browser: "Food", visitors: "5’000’000₮", bg: "bg-[#E74694]" },
+    { browser: "Food", 
+      visitors: 5000000, 
+      fill: "#E74694"},
     {
       browser: "Shopping",
-      visitors: "5’000’000₮",
+      visitors: 5000000,
       fill: "#FDBA8C",
-      bg: "bg-[#FDBA8C]",
     },
     {
       browser: "Insurance",
-      visitors: "5’000’000₮",
+      visitors: 5000000,
       fill: "#16BDCA",
-      bg: "bg-[#16BDCA]",
     },
     {
       browser: "Clothing",
-      visitors: "5’000’000₮",
+      visitors: 5000000,
       fill: "#F2901C",
-      bg: "bg-[#F2901C]",
     },
   ];
 
@@ -125,13 +113,31 @@ export const DashboardCharts = () => {
       <div className="bg-white rounded-xl w-full">
         <p className="py-4 px-6 border-b">Income - Expense</p>
         <div className="flex py-8 px-6 gap-3">
-          <ChartComponent/>
+        <ChartContainer
+          config={chartConfig2}
+          className="aspect-square w-[184px] h-[184px] m-auto"
+        >
+          <PieChart>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Pie
+              data={chartData2}
+              dataKey="visitors"
+              nameKey="browser"
+              innerRadius={40}
+              strokeWidth={10}
+            >
+            </Pie>
+          </PieChart>
+        </ChartContainer>
           <div className="space-y-4">
             {chartData2.map((el, i) => (
-              <div className="flex items-center">
-                <p className={`size-3 rounded-full ${el.bg} mr-2`}></p>
+              <div key={el+i} className="flex items-center">
+                <p className={`size-3 rounded-full bg-[${el.fill}] mr-2`}></p>
                 <p className="w-[132px]">{el.browser}</p>
-                <p className="w-[128px]">{el.visitors}</p>
+                <p className="w-[128px]">{el.visitors.toLocaleString() + "₮"}</p>
                 <p className="w-[64px]">15,50%</p>
               </div>
             ))}

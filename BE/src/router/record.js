@@ -1,5 +1,5 @@
 import express from "express"
-import { getRecord,createRecord,updateRecord,deleteRecord, getData } from "../controller/record.js";
+import { getRecord,createRecord,updateRecord,deleteRecord, getData, getDesc } from "../controller/record.js";
 
 const record = express.Router();
 
@@ -9,5 +9,6 @@ record
     .post("/create", createRecord)
     .put("/:id", updateRecord)
     .delete("/:id", deleteRecord)
+    .get("/getDesc", getDesc)
 
 export { record }
