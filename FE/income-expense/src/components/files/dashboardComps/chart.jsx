@@ -31,25 +31,26 @@ export const DashboardCharts = ({ chartData }) => {
     {
       browser: "Bills",
       visitors: 5000000,
-      fill: "#1C64F2",
+      fill: "#1C64F2"
     },
     { browser: "Food", 
       visitors: 5000000, 
-      fill: "#E74694"},
+      fill: "#E74694"
+    },
     {
       browser: "Shopping",
       visitors: 5000000,
-      fill: "#FDBA8C",
+      fill: "#FDBA8C"
     },
     {
       browser: "Insurance",
       visitors: 5000000,
-      fill: "#16BDCA",
+      fill: "#16BDCA"
     },
     {
       browser: "Clothing",
       visitors: 5000000,
-      fill: "#F2901C",
+      fill: "#F2901C"
     },
   ];
 
@@ -133,7 +134,8 @@ export const DashboardCharts = ({ chartData }) => {
           </PieChart>
         </ChartContainer>
           <div className="space-y-4">
-            {chartData2.map((el, i) => (
+            {chartData2.map((el, i) => 
+            (
               <div key={el+i} className="flex items-center">
                 <p className={`size-3 rounded-full bg-[${el.fill}] mr-2`}></p>
                 <p className="w-[132px]">{el.browser}</p>
