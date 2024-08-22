@@ -8,18 +8,41 @@ const timeConvertor = (time) => {
   const pastDate = new Date(time);
   const currentTime = Date.now();
   const pastTime = pastDate.getTime();
-  
-  const difference = (currentTime - pastTime) / 1000;
-  let differenceMin, differenceHour, differenceSec;
-  
-  if (difference > 60) {
-    differenceSec = Math.floor(difference % 60);
-    differenceMin = Math.floor(difference / 60);
+
+  if (pastTime > currentTime) {
+    return "Future date";
   }
-  if (differenceMin > 60) {
-    differenceHour = (differenceMin % 60) / 24;
-  } else differenceHour = 0;
-  return [`${differenceHour} ago, ${differenceMin}ago, ${differenceSec} ${difference}`]
+
+  const difference = (currentTime - pastTime) / 1000;
+  const differenceSec = Math.floor(difference % 60);
+  const differenceMin = Math.floor(difference / 60) % 60;
+  const differenceHour = Math.floor(difference / 3600) % 24;
+  const differenceDay = Math.floor(difference / 86400);
+
+  let result = "";
+
+  if (differenceDay > 0) {
+    result += `${differenceDay} day${differenceDay > 1 ? "s" : ""}`;
+  }
+
+  if (differenceHour > 0) {
+    if (result) result += " ";
+    result += `${differenceHour} hour${differenceHour > 1 ? "s" : ""}`;
+  }
+
+  if (differenceMin > 0) {
+    if (result) result += " ";
+    result += `${differenceMin} minute${differenceMin > 1 ? "s" : ""}`;
+  }
+
+  // if (differenceSec > 0 || result === '') {
+  //   if (result) result += ' ';
+  //   result += `${differenceSec} second${differenceSec > 1 ? 's' : ''}`;
+  // }
+
+  result += " ago";
+
+  return result;
 };
 
 export const DashboardRecords = () => {
@@ -27,7 +50,10 @@ export const DashboardRecords = () => {
   const fetchData = async () => {
     try {
       const res = await axios.get("http://localhost:8000/record/getDesc");
-      setChartData(res.data);
+      res.data.map((e) => {
+        e.month = new Date(e.month).getTime();
+      });
+      setChartData(res.data.sort((a, b) => b.month - a.month));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -48,7 +74,9 @@ export const DashboardRecords = () => {
               </div>
               <div>
                 <p>{el.desc}</p>
-                <p className="text-[#6B7280] text-sm">{el.month}</p>
+                <p className="text-[#6B7280] text-sm">
+                  {timeConvertor(el.month)}
+                </p>
               </div>
             </div>
             <p className="text-[#84CC16]">{el.total.toLocaleString() + "₮"}</p>

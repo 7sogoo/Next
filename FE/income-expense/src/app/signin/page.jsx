@@ -9,7 +9,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 
-const signin = () => {
+const Signin = () => {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false);
   const formRef = useRef()
@@ -70,4 +70,4 @@ const signin = () => {
   );
 };
 
-export default signin;
+export default Signin;
