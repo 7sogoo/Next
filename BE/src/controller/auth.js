@@ -1,35 +1,59 @@
-import { db } from "../../db.js"
-import { createSignUp } from "./user.js";
+import { db } from "../../db.js";
+import bcrypt from 'bcrypt';
 
 export const signUp = async (req, res) => {
-    try {
-        const user = await createSignUp(req, res);
-        res.status(200).json({ success: true, user: user})
-    }    
-    catch (err) {
-        console.log(err);
-        res.status(404).json({ error: "database error"})
-    }
-}
-export const signIn = async (req, res) => {
-    const { password, email } = req.body;
-    const queryText = 'SELECT * FROM "user" WHERE email = $1';
-    console.log(req.body);
-    
-    try {
-        const result = await db.query(queryText, [email]);
-        const user = result.rows;
-        console.log(user)
+    const { name, email, password, currencyType } = req.body;
 
-        if (password === user[0].password) {
-            return res.status(200).json({ success: true, user: user});
-        } else {
-            return res.status(401).json({ error: "Invalid name or password" });
-        }
+    if (!name || !email || !password || !currencyType) {
+        return res.status(400).json({ error: "All fields are required" });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const queryText = `
+        INSERT INTO "user" (name, email, password, currencyType)
+        VALUES ($1, $2, $3, $4) RETURNING *`;
+
+        const result = await db.query(queryText, [
+            name, 
+            email,
+            hashedPassword, 
+            currencyType
+        ]);
+
+        res.status(201).json(result.rows[0]);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(404).json({ error: "Database error" });
     }
 };
 
+export const signIn = async (req, res) => {
+    const { email, password } = req.body;
 
+    if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
+    }
+
+    try {
+        const queryText = 'SELECT * FROM "user" WHERE email = $1';
+        const result = await db.query(queryText, [email]);
+
+        if (result.rows.length === 0) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+
+        const user = result.rows[0];
+        const match = await bcrypt.compare(password, user.password);
+
+        if (!match) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+        res.status(200).json({ success: true, user: user});
+
+    } catch (err) {
+        console.error(err);
+        return res.status(404).json({ error: "Database error" });
+    }
+};

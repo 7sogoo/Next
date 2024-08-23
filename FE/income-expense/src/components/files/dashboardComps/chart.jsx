@@ -137,7 +137,7 @@ export const DashboardCharts = ({ chartData }) => {
             {chartData2.map((el, i) => 
             (
               <div key={el+i} className="flex items-center">
-                <p className={`size-3 rounded-full bg-[${el.fill}] mr-2`}></p>
+                <p className={`size-3 rounded-full mr-2 bg-[${el.fill}]`}></p>
                 <p className="w-[132px]">{el.browser}</p>
                 <p className="w-[128px]">{el.visitors.toLocaleString() + "₮"}</p>
                 <p className="w-[64px]">15,50%</p>

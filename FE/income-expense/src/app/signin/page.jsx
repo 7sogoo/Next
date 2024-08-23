@@ -17,8 +17,9 @@ const Signin = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const email = formRef.current[0].value
-    const password = formRef.current[1].value
+    const { elements } = formRef.current;
+    const email = elements.email.value;
+    const password = elements.password.value;
     setLoading(true);
     setError("");
     
@@ -49,8 +50,8 @@ const Signin = () => {
             </p>
           </div>
           <div className="w-full space-y-4">
-            <Input className="bg-[#F3F4F6]" name="Email" placeholder="Email" />
-            <Input className="bg-[#F3F4F6]" name="Password" type="password" placeholder="Password" />
+            <Input className="bg-[#F3F4F6]" name="email" placeholder="Email" />
+            <Input className="bg-[#F3F4F6]" name="password" type="password" placeholder="Password" />
           </div>
           {error && <p className="text-red-500">{error}</p>}
           <Button onClick={onSubmit} type="submit" className="bg-[#0166FF] w-full rounded-3xl" disabled={loading}>

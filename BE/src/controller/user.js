@@ -13,17 +13,18 @@ export const getUser  = async (req, res) => {
 }
 
 export const createSignUp = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, currencyType } = req.body;
 
   const queryText = `
-  INSERT INTO "user" (name, email, password)
-  VALUES ($1, $2, $3) RETURNING *`; 
+  INSERT INTO "user" (name, email, password, currencyType)
+  VALUES ($1, $2, $3, $4) RETURNING *`; 
 
   try {
     const result = await db.query(queryText, [
       email,
       name,
-      password
+      password,
+      currencyType
     ]);
     res.status(200).json(result.rows[0]);
   } catch (error) {
