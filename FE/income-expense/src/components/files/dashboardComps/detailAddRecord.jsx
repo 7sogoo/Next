@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SvgEye, SvgNext, SvgPlusBlue } from "..";
+import { SvgEye, SvgNext, SvgPlus, SvgPlusBlue } from "..";
 import { Checkbox } from "@/components/ui/checkbox";
+import { AddButton } from "../addButton";
 
 const checkboxData = ["All", "Income", "Expense"];
 const categoryData = [
@@ -23,7 +24,7 @@ export const DetailAddRecord = () => {
     <div className="min-w-[282px] flex flex-col gap-6 py-6 px-4 bg-white rounded-xl">
       <div className="flex flex-col gap-6">
         <p>Records</p>
-        <Button className="bg-[#0166FF] rounded-3xl">+ Add</Button>
+          <AddButton title={`Add`} />
       </div>
       <Input placeholder="Search" className="bg-[#F3F4F6] rounded-lg p-4" />
       <div>

@@ -1,4 +1,16 @@
+"use client"
+
 import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -7,93 +19,71 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { DatePickerDemo } from "./datePicker";
+import { SvgPlus } from ".";
+import { useState } from "react";
+import { Textarea } from "../ui/textarea";
 
-const styles = {
-    clicked: `bg-[#0166FF] w-[50%] rounded-[20px]`,
-    notClicked: `bg-[#F3F4F6] text-black rounded-[20px] w-[50%]`
+const data = ["Home", "Gift", "Food", "Drink", "Taxi", "Shopping"]
+
+
+
+export const AddButton = (props) => {
+
+const [clicked, setClicked] = useState()
+
+const handleClick = () => {
+    setClicked()
 }
-
-export const AddButton = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-[792px] m-auto">
-        <div className="flex justify-between px-6 py-5">
-          <p>Add record</p>
-          <p>X</p>
-        </div>
-        <div className="flex">
-          <div className="w-full px-6 py-5">
-            <div className="mb-5">
-              <Button className={styles.clicked}>Expense</Button>
-              <Button className={styles.notClicked}>Income</Button>
-            </div>
-            <div className="flex flex-col gap-5">
-              <Input placeholder="Amount" />
-              <div>
+      <Dialog className="w-[796px]">
+        <DialogTrigger asChild>
+                <Button className="bg-[#0166FF] border-none rounded-[20px] flex gap-[5px]">
+                    <SvgPlus />
+                    {props.title}</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="flex flex-row">
+            <div className="w-full px-6 py-5 flex flex-col gap-5">
+              <div className="flex bg-[#F3F4F6] rounded-[20px]">
+                <Button className="w-full rounded-[20px] bg-[#0166FF]">Expense</Button>
+                <Button className="w-full rounded-[20px] bg-[#F3F4F6] text-[#1F2937]">Income</Button>
+              </div>
+              <div className="space-y-[5px]">
+                <p>Amount</p>
+                <Input className="bg-[#F3F4F6] py-6 text-[#94A3B8]" placeholder="1000.00₮" />
+              </div>
+              <div className="space-y-[5px]">
                 <p>Category</p>
                 <Select>
-                  <SelectTrigger className="bg-[#F3F4F6] py-6">
-                    <SelectValue placeholder="Choose" />
+                  <SelectTrigger className="w-full bg-[#F3F4F6] py-6 text-[#94A3B8]">
+                    <SelectValue placeholder="Find or choose category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="tugrik">
-                      MNT - Mongolian Tugrik
-                    </SelectItem>
-                    <SelectItem value="dollar">
-                      USD - United States Dollar
-                    </SelectItem>
+                    {data.map((el,i) => (
+                        <SelectItem key={el + i} index={i} value={el}>{el}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex">
-                <div>
-                  <p>Date</p>
-                  <Select>
-                    <SelectTrigger className="bg-[#F3F4F6] py-6">
-                      <SelectValue placeholder="MNT - Mongolian Tugrik" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="tugrik">
-                        MNT - Mongolian Tugrik
-                      </SelectItem>
-                      <SelectItem value="dollar">
-                        USD - United States Dollar
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <p>Time</p>
-                  <Select>
-                    <SelectTrigger className="bg-[#F3F4F6] py-6">
-                      <SelectValue placeholder="MNT - Mongolian Tugrik" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="tugrik">
-                        MNT - Mongolian Tugrik
-                      </SelectItem>
-                      <SelectItem value="dollar">
-                        USD - United States Dollar
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div className="space-y-[5px]">
+                <p>Date</p>
+              <DatePickerDemo/>
               </div>
+              <Button className="w-full rounded-[20px] bg-[#0166FF] mt-3">Add record</Button>
             </div>
-            <Button className="w-full bg-[#0166FF] rounded-[20px] mt-8">Add Record</Button>
-          </div>
-          <div className="flex flex-col gap-5 w-full">
-            <div>
-                <p>Payee</p>
-                <Input/>
+            <div className="w-full px-6 pt-[15px] pb-6 space-y-5">
+                <div className="space-y-[5px]">
+                    <p>Payee</p>
+                    <Input className="bg-[#F3F4F6] text-[#94A3B8] py-6" placeholder="Write here"/>
+                </div>
+                <div className="space-y-[5px]">
+                    <p>Note</p>
+                    <Textarea className="bg-[#F3F4F6] h-full text-[#94A3B8] py-6" placeholder="Write here"/>
+                </div>
             </div>
-            <div>
-                <p>Note</p>
-                <Input/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
   );
 };
