@@ -1,8 +1,13 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SvgEye, SvgNext, SvgPlus, SvgPlusBlue } from "..";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AddButton } from "../addButton";
+import axios from "axios";
+import { useState } from "react";
+import { AddCategory } from "../addCategory";
 
 const checkboxData = ["All", "Income", "Expense"];
 const categoryData = [
@@ -51,10 +56,7 @@ export const DetailAddRecord = () => {
               <SvgNext />
             </div>
           ))}
-          <div className="flex items-center gap-1 px-3">
-            <SvgPlusBlue />
-            <p>Add Category</p>
-          </div>
+          <AddCategory/>
         </div>
         <div className="flex flex-col gap-4">
           <p className="font-semibold">Amount Range</p>

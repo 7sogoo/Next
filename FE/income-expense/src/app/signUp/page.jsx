@@ -1,6 +1,6 @@
 "use client"
 
-import axios from 'axios'; // Import axios
+import axios from 'axios';
 import { SvgGeld } from '@/components/files';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,10 +22,9 @@ const SignUp = () => {
     const email = elements.email.value;
     const password = elements.password.value;
     const rePassword = elements.rePassword.value;
-    const currencyType = elements.currencyType.value;
 
     if (password !== rePassword) {
-      setError("Passwords do not match");
+      setError("Passwordoo zuv davtaj bichee bro");
       setLoading(false);
       return;
     }
@@ -34,14 +33,14 @@ const SignUp = () => {
     setError("");
     
     try {
-      const response = await axios.post("http://localhost:8000/api/signup", { name, email, password, currencyType });
+      const response = await axios.post("http://localhost:8000/api/signup", { name, email, password });
       if (response.status === 201) {
         router.push("/signin");
       } else {
         setError(response.data.error || "Sign up failed");
       }
     } catch (error) {
-      setError("An error occurred during sign up");
+      setError("Boldgue");
     } finally {
       setLoading(false);
     }
@@ -62,7 +61,6 @@ const SignUp = () => {
               <Input className="bg-[#F3F4F6]" name="email" type="email" placeholder="Email" required />
               <Input className="bg-[#F3F4F6]" name="password" type="password" placeholder="Password" required />
               <Input className="bg-[#F3F4F6]" name="rePassword" type="password" placeholder="Re-password" required />
-              <Input className="bg-[#F3F4F6]" name="currencyType" placeholder="CurrencyType" required />
             </div>
             <Button type="submit" className="bg-[#0166FF] w-full rounded-3xl" disabled={loading}>
               {loading ? "Signing up..." : "Sign up"}

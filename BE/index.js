@@ -41,17 +41,19 @@ app.get("/createTableUser", async (req, res) => {
     avatarImg TEXT,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    currencyType currency_type DEFAULT 'USD'
+    currencyType currency_type DEFAULT 'MNT'
   );
   `;
 
   try {
     await db.query(tableQueryText);
-    res.send("Table 'USER' created successfully");
+    res.send("Table 'user' created successfully");
   } catch (error) {
-    console.error(error);
+    console.error("Error creating table 'user':", error);
+    res.status(500).send("Error creating table 'user'");
   }
 });
+
 
 
 
@@ -63,7 +65,7 @@ app.get("/createTableCategory", async (req, res) => {
     description TEXT,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    currencyType currency_type DEFAULT 'USD' NOT NULL
+    currencyType currency_type DEFAULT 'MNT'
   );
   `;
 

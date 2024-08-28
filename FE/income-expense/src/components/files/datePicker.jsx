@@ -1,29 +1,28 @@
-"use client";
+"use client"
 
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useState, useEffect } from "react";
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
 
-export function DatePickerDemo({ onDateChange }) {
-  const [date, setDate] = useState(null);
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { useState } from "react"
 
-  useEffect(() => {
-    if (onDateChange) {
-      onDateChange(date);
-    }
-  }, [date, onDateChange]);
+export function DatePickerDemo() {
+  const [date, setDate] = useState(null)
 
   return (
     <Popover>
-      <PopoverTrigger className="bg-[#F3F4F6] py-6" asChild>
+      <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
-            "w-full justify-start text-left font-normal",
+            "w-[280px] justify-start text-left font-normal",
             !date && "text-muted-foreground"
           )}
         >
@@ -40,5 +39,5 @@ export function DatePickerDemo({ onDateChange }) {
         />
       </PopoverContent>
     </Popover>
-  );
+  )
 }

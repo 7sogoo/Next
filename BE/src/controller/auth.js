@@ -2,9 +2,9 @@ import { db } from "../../db.js";
 import bcrypt from 'bcrypt';
 
 export const signUp = async (req, res) => {
-    const { name, email, password, currencyType } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!name || !email || !password || !currencyType) {
+    if (!name || !email || !password) {
         return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -12,14 +12,13 @@ export const signUp = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const queryText = `
-        INSERT INTO "user" (name, email, password, currencyType)
-        VALUES ($1, $2, $3, $4) RETURNING *`;
+        INSERT INTO "user" (name, email, password )
+        VALUES ($1, $2, $3) RETURNING *`;
 
         const result = await db.query(queryText, [
             name, 
             email,
             hashedPassword, 
-            currencyType
         ]);
 
         res.status(201).json(result.rows[0]);

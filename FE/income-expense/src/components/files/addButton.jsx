@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "../ui/button";
+import { format } from "date-fns";
 import {
   Dialog,
   DialogContent,
@@ -15,52 +16,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { DatePickerDemo } from "./datePicker";
-import { SvgPlus } from ".";
-import { useRef, useState } from "react";
+import { SvgAdd, SvgPlus, SvgPlusBlue } from ".";
 import { Textarea } from "../ui/textarea";
-import axios from "axios";
+import { cn } from "@/lib/utils";
+import { useRef, useState } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "../ui/calendar";
 
 const data = ["Home", "Gift", "Food", "Drink", "Taxi", "Shopping"];
 
 export const AddButton = (props) => {
-  const formRef = useRef(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [date, setDate] = useState(null);
+  const formRef = useRef();
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    setError(null);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { id: userId } = JSON.parse(localStorage.getItem("user"));
+    const [a, b, c, d, f, g] = formRef.current;
 
-    if (!formRef.current) {
-      console.error("Form reference is not set.");
-      setError("Form reference is not set.");
-      setLoading(false);
-      return;
-    }
-
-    const { elements } = formRef.current;
-    const amount = elements.amount?.value;
-    const category = elements.category?.value;
-    const date = selectedDate ? selectedDate.toISOString() : ''; 
-    const description = elements.description?.value;
-
-    console.log("Form Values:", { amount, category, date, description });
-
-    try {
-      const response = await axios.post("http://localhost:8000/record/create", { amount, category, date, description });
-      if (response.status === 201) {
-        console.log("added successfully")
-      } else {
-        setError(response.data.error);
-      }
-    } catch (error) {
-      setError("An error occurred during sign up");
-    } finally {
-      setLoading(false);
-    }
+    console.log(userId);
   };
 
   return (
@@ -71,15 +46,21 @@ export const AddButton = (props) => {
           {props.title}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader className="flex flex-row">
-          <form ref={formRef} onSubmit={onSubmit} className="w-full">
+      <DialogContent className="sm:max-w-md min-w-[796px]" title="Add record">
+        <form ref={formRef} onSubmit={handleSubmit}>
+          <DialogHeader className="flex flex-row">
             <div className="w-full px-6 py-5 flex flex-col gap-5">
               <div className="flex bg-[#F3F4F6] rounded-[20px]">
-                <Button type="button" className="w-full rounded-[20px] bg-[#0166FF]">
+                <Button
+                  type="button"
+                  className="w-full rounded-[20px] bg-[#0166FF]"
+                >
                   Expense
                 </Button>
-                <Button type="button" className="w-full rounded-[20px] bg-[#F3F4F6] text-[#1F2937]">
+                <Button
+                  type="button"
+                  className="w-full rounded-[20px] bg-[#F3F4F6] text-[#1F2937]"
+                >
                   Income
                 </Button>
               </div>
@@ -99,8 +80,12 @@ export const AddButton = (props) => {
                     <SelectValue placeholder="Find or choose category" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem>
+                        <SvgAdd />
+                        <p>Add record</p>
+                    </SelectItem>
                     {data.map((el, i) => (
-                      <SelectItem key={i} value={el}>
+                      <SelectItem index={i} key={i} value={el}>
                         {el}
                       </SelectItem>
                     ))}
@@ -109,14 +94,34 @@ export const AddButton = (props) => {
               </div>
               <div className="space-y-[5px]">
                 <p>Date</p>
-                <DatePickerDemo onDateChange={setSelectedDate} />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
               <Button
                 type="submit"
                 className="w-full rounded-[20px] bg-[#0166FF] mt-3"
-                disabled={loading}
               >
-                {loading ? "Adding..." : "Add record"}
+                Add submit
               </Button>
             </div>
             <div className="w-full px-6 pt-[15px] pb-6 space-y-5">
@@ -136,8 +141,8 @@ export const AddButton = (props) => {
                 />
               </div>
             </div>
-          </form>
-        </DialogHeader>
+          </DialogHeader>
+        </form>
       </DialogContent>
     </Dialog>
   );

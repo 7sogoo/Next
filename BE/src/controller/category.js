@@ -13,17 +13,16 @@ export const getCategory  = async (req, res) => {
 }
 
 export const createCategory = async (req, res) => {
-    const { name, description, currencyType } = req.body;
+    const { name, description } = req.body;
   
     const queryText = `
-    INSERT INTO "category" (name, description, currencyType)
-    VALUES ($1, $2, $3) RETURNING *`;
+    INSERT INTO "category" (name, description)
+    VALUES ($1, $2) RETURNING *`;
   
     try {
       const result = await db.query(queryText, [
         name,
         description,
-        currencyType
       ]);
       res.status(201).json(result.rows[0]);
     } catch (error) {
