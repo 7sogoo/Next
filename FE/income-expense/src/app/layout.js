@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -8,13 +8,15 @@ import { useRouter } from "next/navigation";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
-  const router = useRouter()
+  const router = useRouter();
+
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'))
-    if(!user.id) {
-      router.push("http://localhost:3000/signUp")
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user.id) {
+      router.push("/signUp");
     }
-  }, [])
+  }, [router]);
+
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>

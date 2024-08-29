@@ -4,7 +4,8 @@ import { DashboardCharts } from "@/components/files/dashboardComps/chart"
 import { DashboardHeader } from "@/components/files/dashboardComps/header"
 import { DashboardRecords } from "@/components/files/dashboardComps/records"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
+import withAuth from "../utils/withAuth"
 
 const Dashboard = () => {
   const [chartData, setChartData] = useState([]);
@@ -32,4 +33,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard  
+export default withAuth(memo(Dashboard));

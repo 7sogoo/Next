@@ -72,17 +72,13 @@ export const getRecord = async (req, res) => {
         const result = await db.query(queryText);
         res.status(200).json(result.rows);
     } catch (error) {
-        console.error('Error fetching records:', error.message); // Log error message
+        console.error('Error fetching records:', error.message);
         res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 };
 
 export const createRecord = async (req, res) => {
     const { userId, categoryId, name, amount, description, transactionType } = req.body;
-
-    if (!userId || !categoryId || !name || typeof amount !== 'number' || !transactionType) {
-        return res.status(400).json({ error: "Invalid input data" });
-    }
 
     const queryText = `
     INSERT INTO "record" (userId, categoryId, name, amount, description, transactionType)
@@ -99,7 +95,7 @@ export const createRecord = async (req, res) => {
         ]);
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        console.error('Error creating record:', error.message); // Log error message
+        console.error('Error creating record:', error.message);
         res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 };
@@ -107,10 +103,6 @@ export const createRecord = async (req, res) => {
 export const updateRecord = async (req, res) => {
     const { id } = req.params;
     const { name, amount, description, transactionType } = req.body;
-
-    if (!name || typeof amount !== 'number' || !transactionType) {
-        return res.status(400).json({ error: "Invalid input data" });
-    }
 
     try {
         const result = await db.query(
@@ -123,7 +115,7 @@ export const updateRecord = async (req, res) => {
         }
         res.status(200).json(result.rows[0]);
     } catch (error) {
-        console.error('Error updating record:', error.message); // Log error message
+        console.error('Error updating record:', error.message);
         res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 };
@@ -142,7 +134,7 @@ export const deleteRecord = async (req, res) => {
         }
         res.status(200).json({ message: "Record deleted successfully", record: result.rows[0] });
     } catch (error) {
-        console.error('Error deleting record:', error.message); // Log error message
+        console.error('Error deleting record:', error.message);
         res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 };

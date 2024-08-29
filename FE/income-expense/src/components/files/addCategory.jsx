@@ -17,7 +17,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 
 const mockData = [
@@ -36,6 +36,7 @@ const mockData = [
 ];
 
 export const AddCategory = () => {
+  const [msg, setMsg] = useState("")
   const formRef = useRef();
 
   const onSubmit = async (event) => {
@@ -53,6 +54,7 @@ export const AddCategory = () => {
         }
       );
       if (response.status === 201) {
+        setMsg("successfully added category")
         console.log("successfully added category");
       } else {
         console.error("errror");
@@ -95,6 +97,7 @@ export const AddCategory = () => {
               Save changes
             </Button>
           </DialogFooter>
+          {msg}
         </form>
       </DialogContent>
     </Dialog>
