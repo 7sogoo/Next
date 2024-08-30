@@ -3,6 +3,7 @@ import { db } from "../../db.js";
  import _ from "lodash"
 
 export const getData = async (req, res) => {
+
   const queryText = "SELECT * FROM record";
   try {
     const result = await db.query(queryText);
@@ -31,6 +32,20 @@ export const getData = async (req, res) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getDataById = async (req, res) => {
+
+  const { userId } = req.query
+
+  const queryText = "SELECT * FROM record WHERE userId = $1";
+  try {
+    const result = await db.query(queryText, [userId]);
+    res.status(200).json(result.rows);
+} catch (error) {
+    console.error('Error fetching records:', error.message);
+    res.status(500).json({ error: "Internal Server Error", details: error.message });
+}
 };
 
 export const getDesc = async (req, res) => {

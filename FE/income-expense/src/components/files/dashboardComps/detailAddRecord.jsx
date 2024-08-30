@@ -1,12 +1,9 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SvgEye, SvgNext, SvgPlus, SvgPlusBlue } from "..";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AddButton } from "../addButton";
-import axios from "axios";
-import { useState } from "react";
 import { AddCategory } from "../addCategory";
 
 const checkboxData = ["All", "Income", "Expense"];
@@ -25,6 +22,9 @@ const categoryData = [
 ];
 
 export const DetailAddRecord = () => {
+
+
+
   return (
     <div className="min-w-[282px] flex flex-col gap-6 py-6 px-4 bg-white rounded-xl">
       <div className="flex flex-col gap-6">

@@ -1,6 +1,9 @@
-import { AddButton } from "@/components/files/addButton"
+"use client"
+
 import { DashboardDetail } from "@/components/files/dashboardComps/detail"
 import { DashboardHeader } from "@/components/files/dashboardComps/header"
+import withAuth from "../utils/withAuth"
+import { memo } from "react"
 
 const Records = () => {
   return (
@@ -11,4 +14,4 @@ const Records = () => {
   )
 }
 
-export default Records
+export default withAuth(memo(Records));

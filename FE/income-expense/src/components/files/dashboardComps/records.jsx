@@ -47,6 +47,7 @@ const timeConvertor = (time) => {
 
 export const DashboardRecords = () => {
   const [chartData, setChartData] = useState([]);
+  console.log(chartData)
   const fetchData = async () => {
     try {
       const res = await axios.get("http://localhost:8000/record/getDesc");
